@@ -10,7 +10,8 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { UserState } from "../../reducers/user";
 import { Fontisto } from "@expo/vector-icons";
-import PhotoModal from "../events/PhotoModal"
+import PhotoModal from "../events/PhotoModal";
+import { BACKENDADRESS } from "../../config";
 
 type UserScreenProps = {
   navigation: NavigationProp<ParamListBase>;
@@ -29,9 +30,26 @@ export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
 
   const user = useSelector((state: { user: UserState }) => state.user.value);
 
-  const handleAddPhoto = (profiePhotoUrl: string) => {
-    setPhoto(profiePhotoUrl);
+  const handleAddPhoto = (profilePhotoUrl: string) => {
+    const formData = new FormData();
+    //@ts-expect-error
+    formData.append("photoFromFront", {
+      uri: profilePhotoUrl,
+      name: "photo.jpg",
+      type: "image/jpeg",
+    });
+    fetch(BACKENDADRESS + `/upload/`, {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setPhoto(data.photo.url);
+      });
   };
+
+  console.log(photo);
 
   console.log(user);
 
@@ -42,14 +60,17 @@ export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
       </View>
       <View style={styles.container}>
         <View>
-
-          <Fontisto
-            style={styles.photos}
-            name="photograph"
-            size={95}
-            color={"white"}
-            onPress={() => setIsPhotoModalOpened(true)}
-          />
+          {photo ? (
+            <Image style={styles.updPhoto} source={{ uri: photo }} />
+          ) : (
+            <Fontisto
+              style={styles.photos}
+              name="photograph"
+              size={95}
+              color={"white"}
+              onPress={() => setIsPhotoModalOpened(true)}
+            />
+          )}
           <PhotoModal
             onClose={() => setIsPhotoModalOpened(false)}
             visible={isPhotoModalOpened}
@@ -68,8 +89,8 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     backgroundColor: "#151515",
-    height:900,
-    padding: 80
+    height: 900,
+    padding: 80,
   },
   header: {
     flexDirection: "row",
@@ -84,7 +105,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     color: "white",
-    padding: 40
+    padding: 40,
   },
   photos: {
     backgroundColor: "#323232",
@@ -97,7 +118,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
     padding: 15,
   },
-   updPhoto: {
+  updPhoto: {
     width: 120,
     height: 120,
     borderWidth: 2,

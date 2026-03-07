@@ -54,7 +54,6 @@ export default function FocusocusOnAlbum({ navigation }: UserScreenProps) {
     return () => clearInterval(interval);
   }, [currentEvent._id]);
 
-
   const handleAddMessage = () => {
     fetch(BACKENDADRESS + `/messages/${user.token}`, {
       method: "POST",
@@ -101,10 +100,8 @@ export default function FocusocusOnAlbum({ navigation }: UserScreenProps) {
   const member = membersList?.find(
     (member) => member._id === "698e2c550d2de8ae50233ae2",
   );
-  const handleAddMember = () => {
+  const handleAddMember = () => {};
 
-  }
-  
   console.log(membersList, member?.username);
 
   return (
@@ -115,7 +112,12 @@ export default function FocusocusOnAlbum({ navigation }: UserScreenProps) {
       <View style={styles.container}>
         <View style={styles.underHeader}>
           <Text style={styles.title}>{currentEvent.title}</Text>
-          <AddMemberButton colour="#1b1b1b" size="m" text="+" onPress={handleAddMember}/>
+          <AddMemberButton
+            colour="#1b1b1b"
+            size="m"
+            text="+"
+            onPress={handleAddMember}
+          />
         </View>
         <FlatList
           style={styles.listPosition}
@@ -134,7 +136,7 @@ export default function FocusocusOnAlbum({ navigation }: UserScreenProps) {
                   <Text style={styles.member}>
                     {
                       membersList?.find((member) => {
-                        member._id === item._userId;
+                        return member._id === item._userId;
                       })?.username
                     }
                   </Text>
@@ -223,26 +225,25 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   notUserTexte: {
-    marginTop: -20,
     marginLeft: 10,
     color: "white",
     fontSize: 20,
   },
   userDate: {
     color: "#4f4f4f",
-    fontSize: 15,
+    fontSize: 12,
     textAlign: "right",
     marginRight: 10,
   },
   notUserDate: {
     color: "grey",
-    fontSize: 15,
+    fontSize: 12,
     textAlign: "right",
     marginRight: 10,
   },
   user: {
     marginRight: 10,
-    marginLeft: "45%",
+    marginLeft: "35%",
     marginBottom: 10,
     backgroundColor: "#fac4ff",
     borderRadius: 20,
@@ -253,7 +254,7 @@ const styles = StyleSheet.create({
   },
   notUser: {
     marginLeft: 10,
-    marginRight: "45%",
+    marginRight: "35%",
     marginBottom: 10,
     backgroundColor: "#282828",
     borderRadius: 20,
@@ -263,8 +264,9 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   member: {
-    color: "red",
-    fontSize: 20,
+    marginLeft: 10,
+    color: "grey",
+    fontSize: 15,
   },
   footer: {
     height: 100,

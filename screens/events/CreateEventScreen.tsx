@@ -111,7 +111,7 @@ export default function CreateEventScreen({ navigation }: UserScreenProps) {
             name: "photo.jpg",
             type: "image/jpeg",
         });
-        fetch("http://192.168.1.160:3000/upload", {
+        fetch (BACKENDADRESS + `/upload/`, {
             method: "POST",
             body: formData,
         })
@@ -322,7 +322,7 @@ const styles = StyleSheet.create({
     },
     photos: {
         backgroundColor: "#323232",
-        width: 140,
+        width: 1,
         height: 140,
         borderWidth: 2,
         borderRadius: 25,
