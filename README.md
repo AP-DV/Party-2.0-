@@ -1,2 +1,1 @@
-# party_frontend
-# Party-2.0-
+# Party-Frontend-
