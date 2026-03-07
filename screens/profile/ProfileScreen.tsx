@@ -30,11 +30,11 @@ export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
 
   const user = useSelector((state: { user: UserState }) => state.user.value);
 
-  const handleAddPhoto = (profilePhotoUrl: string) => {
+  const handleAddPhoto = (imageURI: string) => {
     const formData = new FormData();
     //@ts-expect-error
     formData.append("photoFromFront", {
-      uri: profilePhotoUrl,
+      uri: imageURI,
       name: "photo.jpg",
       type: "image/jpeg",
     });
