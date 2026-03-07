@@ -79,7 +79,7 @@ export default function SignInModal({
           value={password}
         />
         {missingError && (
-          // <Text style={styles.error}>Veuillez remplir tous les champs</Text>
+          <Text style={styles.error}>Veuillez remplir tous les champs</Text>
         )}
         {passwordError && (
           <Text style={styles.error}>User not found or wrong password</Text>
