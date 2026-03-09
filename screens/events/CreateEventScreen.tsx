@@ -117,9 +117,9 @@ export default function CreateEventScreen({ navigation }: UserScreenProps) {
         })
             .then((response) => response.json())
             .then((data) => {
-                console.log(data);
+                console.log('photodata:',data);
                 setPhoto(data.photo.url);
-            });
+            }).catch(console.error);
     };
 
     const handleAddMember = (member: string) => {
@@ -150,7 +150,7 @@ export default function CreateEventScreen({ navigation }: UserScreenProps) {
                 />
                 <View style={styles.photoPlusFriends}>
                     {photo ? (
-                        <Image style={styles.photos} source={{ uri: photo }} />
+                        <Image style={styles.updPhoto} source={{ uri: photo }} />
                     ) : (
                         <Fontisto
                             style={styles.photos}
@@ -322,7 +322,7 @@ const styles = StyleSheet.create({
     },
     photos: {
         backgroundColor: "#323232",
-        width: 1,
+        width: 140,
         height: 140,
         borderWidth: 2,
         borderRadius: 25,
@@ -330,6 +330,15 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         marginRight: 10,
         padding: 15,
+    },
+        updPhoto: {
+        width: 140,
+        height: 140,
+        borderWidth: 2,
+        borderRadius: 25,
+        borderColor: "white",
+         marginLeft: 10,
+        marginRight: 10,
     },
     friends: {
         backgroundColor: "#323232",

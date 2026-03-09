@@ -75,7 +75,7 @@ export default function ChatsScreen({ navigation }: UserScreenProps) {
                   <Fontisto
                     style={styles.photos}
                     name="photograph"
-                    size={60}
+                    size={25}
                     color={"white"}
                     bottom={10}
                   />
@@ -153,15 +153,15 @@ const styles = StyleSheet.create({
   },
   photos: {
     backgroundColor: "#323232",
-    width: 120,
-    height: 120,
+    width: 50,
+    height: 50,
     borderWidth: 2,
     borderRadius: 25,
     borderColor: "white",
     marginLeft: 10,
     marginRight: 10,
     marginTop: 20,
-    padding: 15,
+    padding: 10,
   },
   updPhoto: {
     width: 50,

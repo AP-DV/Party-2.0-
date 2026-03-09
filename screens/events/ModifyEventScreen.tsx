@@ -164,7 +164,7 @@ export default function ModifyEventScreen({ navigation }: UserScreenProps) {
         <View>
           <Text style={styles.title}>Modification d'évènement</Text>
           <TextInput
-            style={styles.input}
+            style={styles.titleInput}
             placeholder={currentEvent.title}
             placeholderTextColor="grey"
             onChangeText={(value) => setTitle(value)}
@@ -304,10 +304,25 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   title: {
+    marginTop: 10,
     fontSize: 25,
     fontWeight: "bold",
     textAlign: "center",
     color: "white",
+  },
+    titleInput: {
+    fontSize: 20,
+    fontWeight: "bold",
+    textAlign: "center",
+    height: 40,
+    margin: 15,
+    borderWidth: 1,
+    padding: 10,
+    backgroundColor: "#323232",
+    color: "grey",
+    borderColor: "white",
+    borderRadius: 17,
+    width: 290,
   },
   input: {
     fontSize: 20,
@@ -321,7 +336,7 @@ const styles = StyleSheet.create({
     color: "grey",
     borderColor: "white",
     borderRadius: 17,
-    width: "80%",
+    width: "90%",
   },
   locationInput: {
     fontSize: 20,
@@ -335,7 +350,7 @@ const styles = StyleSheet.create({
     color: "grey",
     borderColor: "white",
     borderRadius: 17,
-    width: 300,
+    width: 290,
   },
   texte: {
     fontSize: 20,
@@ -355,6 +370,7 @@ const styles = StyleSheet.create({
     borderColor: "white",
     marginLeft: 10,
     marginRight: 10,
+    padding:15
   },
   friends: {
     backgroundColor: "#323232",

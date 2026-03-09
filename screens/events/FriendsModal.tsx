@@ -74,7 +74,7 @@ export default function FriendsModal({
     return (
         <Modal visible={visible} transparent style={styles.modal}>
             <View style={styles.container}>
-                <Xbutton colour="black" size="s" text="X  " onPress={onClose} />
+                <Xbutton colour="black" size="m" text="X  " onPress={onClose} />
                 <ScrollView contentContainerStyle={styles.galleryContainer}>
                     {friendsList}
                 </ScrollView>
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "grey",
+        backgroundColor: "#202020",
         borderRadius: 40,
         margin: 40,
         height: 670,
@@ -110,10 +110,18 @@ const styles = StyleSheet.create({
         color: "white",
         fontSize: 30,
         alignSelf: "center",
+        minWidth:200,
+        maxWidth:200
     },
+
     friend: {
         flexDirection: "row",
-        justifyContent: "space-between",
+        justifyContent: "space-evenly",
+        borderWidth: 1,
+        padding:5,
+        borderTopColor: "white",
+        backgroundColor: "#212121",
+        width:'100%',
     },
     checkbox: {
         alignSelf: "center",

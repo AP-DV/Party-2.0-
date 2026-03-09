@@ -146,6 +146,7 @@ const styles = StyleSheet.create({
         borderLeftColor: "white",
         borderLeftWidth: 0.2,
         padding: 15,
+        paddingTop: 25,
     },
 
     infosBox: {
@@ -162,8 +163,8 @@ const styles = StyleSheet.create({
     },
     photos: {
         backgroundColor: "#323232",
-        width: "50%",
-        height: "50%",
+        width: "100%",
+        height: 100,
         borderWidth: 2,
         borderRadius: 25,
         borderColor: "white",
