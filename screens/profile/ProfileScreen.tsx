@@ -90,58 +90,43 @@ export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
     const handleModifiedPassword = () => {
         if (!oldPassword) {
             setMissingError(true);
-        } else {
-            fetch(BACKENDADRESS + "/users/signin", {
+        }  else if (!newPassword) {
+            setMissingError(true);
+        }
+        else {
+            fetch(BACKENDADRESS + `/users/update/${user.token}`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    username: user.username,
-                    password: oldPassword,
+                    oldPassword,
+                    newPassword,
                 }),
             })
                 .then((response) => response.json())
                 .then((data) => {
-                    if (data.error === "Missing or empty fields") {
-                        setMissingError(true);
-                        setPassword("");
-                    }
-                    if (data.error === "wrong password") {
+                    if (data.error === "Wrong password") {
                         setPasswordError(true);
-                        setPassword("");
+                        setOldPassword("");
                     }
                     if (data.result) {
-                        const token = data.token;
-                        fetch(BACKENDADRESS + `/users/update/${user.token}`, {
-                            method: "POST",
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({
-                                password: newPassword,
-                                token,
+                        console.log(data.user);
+                        dispatch(
+                            login({
+                                email: data.user.email,
+                                username: data.user.username,
+                                token: data.token,
+                                userPhoto: data.user.userPhoto,
                             }),
-                        })
-                            .then((response) => response.json())
-                            .then((data) => {
-                                if (data.user) {
-                                    console.log(data.user);
-                                    dispatch(
-                                        login({
-                                            email: data.user.email,
-                                            username: data.user.username,
-                                            token: data.token,
-                                            userPhoto: data.user.userPhoto,
-                                        }),
-                                    );
-                                }
-                            })
-
-                            .catch(console.error);
+                        );
                     }
-                    setOldPassword("");
-                    setNewPassword("");
-                    setMissingError(false);
-                    setPasswordError(false);
-                });
+                })
+
+                .catch(console.error);
         }
+        setOldPassword("");
+        setNewPassword("");
+        setMissingError(false);
+        setPasswordError(false);
     };
 
     const deconnected = () => {
