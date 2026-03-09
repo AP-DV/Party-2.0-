@@ -23,15 +23,19 @@ export default function FriendsModal({
     memberIds
 }: FriendModalProps) {
     const [users, setUsers] = useState<User[]>([]);
+    console.log('users :',users);
+        console.log('membersid :',memberIds);
 
     useEffect(() => {
         const fetchUserList = async () => {
             try {
                 const response = await fetch(
-                    BACKENDADRESS + "/users/getUsers",
+                    BACKENDADRESS + "/users",
                     {},
                 );
                 const data = await response.json();
+                console.log(data);
+                
                 setUsers(data.users);
             } catch (error) {
                 console.error("Erreur de récupération Users", error);

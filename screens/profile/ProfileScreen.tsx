@@ -29,7 +29,7 @@ export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
 
     const [photo, setPhoto] = useState<string>("");
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [oldPassword, setOldPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [passwordError, setPasswordError] = useState(false);
     const [missingError, setMissingError] = useState(false);
@@ -65,23 +65,17 @@ export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     email,
-                    token: user.token,
                 }),
             })
                 .then((response) => response.json())
                 .then((data) => {
-                    if (data.result) {
-                        console.log(
-                            "user et token =>",
-                            data,
-                            "email : ",
-                            email,
-                        );
+                    console.log(data);
+                    if (data.token) {
                         dispatch(
                             login({
                                 email: data.user.email,
                                 username: data.user.username,
-                                token: data.user.token,
+                                token: data.token,
                                 userPhoto: data.user.userPhoto,
                             }),
                         );
@@ -94,17 +88,15 @@ export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
     };
 
     const handleModifiedPassword = () => {
-
-        if (!password) {
+        if (!oldPassword) {
             setMissingError(true);
-        }
-        else {
+        } else {
             fetch(BACKENDADRESS + "/users/signin", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     username: user.username,
-                    password: password,
+                    password: oldPassword,
                 }),
             })
                 .then((response) => response.json())
@@ -144,12 +136,12 @@ export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
 
                             .catch(console.error);
                     }
-                    setPassword("");
+                    setOldPassword("");
                     setNewPassword("");
                     setMissingError(false);
                     setPasswordError(false);
                 });
-            }
+        }
     };
 
     const deconnected = () => {
@@ -218,10 +210,10 @@ export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
                             </Text>
                             <TextInput
                                 style={styles.input}
-                                placeholder="Your password..."
+                                placeholder="Old password..."
                                 placeholderTextColor="grey"
-                                onChangeText={(value) => setPassword(value)}
-                                value={password}
+                                onChangeText={(value) => setOldPassword(value)}
+                                value={oldPassword}
                             />
                             <Text style={styles.title}>
                                 Nouveau mot de passe
