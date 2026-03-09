@@ -10,7 +10,7 @@ export const useGetUserEvents = () => {
 
   const [events, setEvents] = useState<EventWithUsers[]>([]);
   const user = useSelector((state: { user: UserState }) => state.user.value);
-console.log(user);
+
 
   useEffect(() => {
     const fetchEventList = async () => {
