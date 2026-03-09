@@ -8,7 +8,7 @@ import {
 import Header from "../headers/Header";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { logout, UserState } from "../../reducers/user";
+import { login, logout, UserState } from "../../reducers/user";
 import { Fontisto } from "@expo/vector-icons";
 import PhotoModal from "../events/PhotoModal";
 import { BACKENDADRESS } from "../../config";
@@ -18,16 +18,22 @@ type UserScreenProps = {
     navigation: NavigationProp<ParamListBase>;
 };
 
+const EMAIL_REGEX: RegExp = /./;
+//    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
 export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
     const dispatch = useDispatch();
 
-    // const [passwordError, setPasswordError] = useState(false);
-    // const [missingError, setMissingError] = useState(false);
     const user = useSelector((state: { user: UserState }) => state.user.value);
-    
+    console.log("User =>", user);
+
     const [photo, setPhoto] = useState<string>("");
-    const [email, setEmail] = useState(user.email);
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [newPassword, setNewPassword] = useState("");
+    const [passwordError, setPasswordError] = useState(false);
+    const [missingError, setMissingError] = useState(false);
+    const [emailError, setEmailError] = useState(false);
     const [isPhotoModalOpened, setIsPhotoModalOpened] = useState(false);
     const [text, onChangeText] = React.useState("Useless Text");
 
@@ -39,26 +45,111 @@ export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
             name: "photo.jpg",
             type: "image/jpeg",
         });
-        fetch(BACKENDADRESS + `/upload/`, {
+        fetch(BACKENDADRESS + "/upload", {
             method: "POST",
             body: formData,
         })
             .then((response) => response.json())
             .then((data) => {
+                console.log("URI photo =>", data.photo);
                 setPhoto(data.photo.url);
             });
     };
 
-    console.log(photo);
-
     const handleModifiedEmail = () => {
-        setEmail(email);
-        dispatch();
+        if (!email || !EMAIL_REGEX.test(email)) {
+            setEmailError(true);
+        } else {
+            fetch(BACKENDADRESS + `/users/update/${user.token}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    email,
+                    token: user.token,
+                }),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.result) {
+                        console.log(
+                            "user et token =>",
+                            data,
+                            "email : ",
+                            email,
+                        );
+                        dispatch(
+                            login({
+                                email: data.user.email,
+                                username: data.user.username,
+                                token: data.user.token,
+                                userPhoto: data.user.userPhoto,
+                            }),
+                        );
+                    }
+                })
+                .catch(console.error);
+
+            setEmailError(false);
+        }
     };
 
-        const handleModifiedPassword = () => {
-        setEmail(email);
-        dispatch();
+    const handleModifiedPassword = () => {
+
+        if (!password) {
+            setMissingError(true);
+        }
+        else {
+            fetch(BACKENDADRESS + "/users/signin", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    username: user.username,
+                    password: password,
+                }),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.error === "Missing or empty fields") {
+                        setMissingError(true);
+                        setPassword("");
+                    }
+                    if (data.error === "wrong password") {
+                        setPasswordError(true);
+                        setPassword("");
+                    }
+                    if (data.result) {
+                        const token = data.token;
+                        fetch(BACKENDADRESS + `/users/update/${user.token}`, {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                                password: newPassword,
+                                token,
+                            }),
+                        })
+                            .then((response) => response.json())
+                            .then((data) => {
+                                if (data.user) {
+                                    console.log(data.user);
+                                    dispatch(
+                                        login({
+                                            email: data.user.email,
+                                            username: data.user.username,
+                                            token: data.token,
+                                            userPhoto: data.user.userPhoto,
+                                        }),
+                                    );
+                                }
+                            })
+
+                            .catch(console.error);
+                    }
+                    setPassword("");
+                    setNewPassword("");
+                    setMissingError(false);
+                    setPasswordError(false);
+                });
+            }
     };
 
     const deconnected = () => {
@@ -102,11 +193,16 @@ export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
                             <Text style={styles.title}>Email</Text>
                             <TextInput
                                 style={styles.input}
-                                placeholder={email}
+                                placeholder="Your email..."
                                 placeholderTextColor="grey"
                                 onChangeText={(value) => setEmail(value)}
                                 value={email}
                             />
+                            {emailError && (
+                                <Text style={styles.error}>
+                                    Invalid email address
+                                </Text>
+                            )}
                         </View>
                         <Button
                             colour="blue"
@@ -117,14 +213,36 @@ export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
                     </View>
                     <View style={styles.modified}>
                         <View style={styles.champ}>
-                            <Text style={styles.title}>Mot de passe</Text>
+                            <Text style={styles.title}>
+                                Ancien mot de passe
+                            </Text>
                             <TextInput
                                 style={styles.input}
-                                placeholder='Your password...'
+                                placeholder="Your password..."
                                 placeholderTextColor="grey"
                                 onChangeText={(value) => setPassword(value)}
                                 value={password}
                             />
+                            <Text style={styles.title}>
+                                Nouveau mot de passe
+                            </Text>
+                            <TextInput
+                                style={styles.input}
+                                placeholder="New password..."
+                                placeholderTextColor="grey"
+                                onChangeText={(value) => setNewPassword(value)}
+                                value={newPassword}
+                            />
+                            {missingError && (
+                                <Text style={styles.error}>
+                                    Missing or empty fields
+                                </Text>
+                            )}
+                            {passwordError && (
+                                <Text style={styles.error}>
+                                    wrong password !
+                                </Text>
+                            )}
                         </View>
                         <Button
                             colour="blue"
@@ -206,16 +324,20 @@ const styles = StyleSheet.create({
         borderRadius: 17,
         width: "80%",
     },
+    error: {
+        marginTop: 10,
+        color: "red",
+    },
     modified: {
         flexDirection: "row",
         backgroundColor: "grey",
         borderWidth: 2,
         borderBlockColor: "black",
-        height: 150,
+        height: 200,
     },
     champ: {
         flexDirection: "column",
-        justifyContent : 'center',
-        alignItems : 'center',
+        justifyContent: "center",
+        alignItems: "center",
     },
 });
