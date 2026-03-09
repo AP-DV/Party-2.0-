@@ -45,7 +45,7 @@ export default function PhotoModal({
     return (
         <Modal visible={visible} transparent style={styles.modal}>
             <View style={styles.container}>
-                <Xbutton colour="black" size="s" text="X  " onPress={onClose} />
+                <Xbutton colour="black" size="l" text="X  " onPress={onClose} />
 
                 <Text style={styles.texte}>
                     Ajoute une photo de ta galerie de photos
@@ -102,10 +102,14 @@ const styles = StyleSheet.create({
         width: "90%",
     },
     btn: {
+        width:'50%',
         backgroundColor: "black",
         borderRadius: 40,
         alignItems: "center",
         padding: 10,
+        borderWidth: 0.5,
+        borderColor: 'white'
     },
-    btnTxt: { color: "white" },
+    btnTxt: { color: "white",
+     },
 });

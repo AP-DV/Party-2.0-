@@ -10,16 +10,24 @@ export type ButtonProps = {
 export function Xbutton(props: ButtonProps) {
   let padding = 0;
   let textSize = 0;
+  let bottom = 0;
+  let left = 0;
 
   if (props.size == "s") {
     padding = 8;
     textSize = 15;
+    bottom = 60;
+    left = 100;
   } else if (props.size == "m") {
-    padding = 20;
-    textSize = 30;
+    padding = 8;
+    textSize = 15;
+    left = 110;
+    bottom = -10;
   } else if (props.size == "l") {
-    padding = 50;
-    textSize = 50;
+    padding = 8;
+    textSize = 15;
+    left = 110;
+    bottom = 40;
   }
 
   return (
@@ -33,9 +41,8 @@ export function Xbutton(props: ButtonProps) {
         opacity: 0.8,
         borderWidth: 1,
         borderColor: "white",
-        left: 100,
-        bottom: 50,
-        marginTop: 0
+        left: left,
+        bottom: bottom,
       }}
     >
       <Text
