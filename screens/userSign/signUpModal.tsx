@@ -69,7 +69,7 @@ export default function SignUpModal({
           setUserError(true);
         }
         if (data.result) {
-          dispatch(login({ email, username, token: data.token }));
+          dispatch(login({ email, username, token: data.token, userPhoto : ''}));
           navigation.navigate("TabNavigator");
           onClose();
         }

@@ -47,9 +47,9 @@ export default function ModifyEventScreen({ navigation }: UserScreenProps) {
 
   const currentEvent = useEventState()!;
 
-  useEffect(() => {
-    setMemberIds(currentEvent.memberIds);
-  }, [currentEvent]);
+  // useEffect(() => {
+  //   setMemberIds(currentEvent.memberIds);
+  // }, [currentEvent]);
 
   const user = useSelector((state: { user: UserState }) => state.user.value);
 
@@ -125,8 +125,8 @@ export default function ModifyEventScreen({ navigation }: UserScreenProps) {
   };
 
   const handleAddMember = (member: string) => {
-    console.log(currentEvent.memberIds);
-    setMemberIds([...memberIds, ...currentEvent.memberIds]);
+    // console.log(currentEvent.memberIds);
+    // setMemberIds([...memberIds, ...currentEvent.memberIds]);
 
     if (!memberIds.includes(member)) {
       setMemberIds([...memberIds, member]);

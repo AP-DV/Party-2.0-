@@ -50,7 +50,14 @@ export default function SignInModal({
           setPasswordError(true);
         }
         if (data.result) {
-          dispatch(login({ email: "", username: username, token: data.token, userPhoto: "" }));
+            fetch(BACKENDADRESS + `/users/${data.token}`)
+            .then(response => response.json())
+            .then(res => {
+                const {email,username,userPhoto} = res.user
+
+                dispatch(login({ email, username, token: data.token, userPhoto }));
+            })
+
           setUsername("");
           setPassword("");
           navigation.navigate("TabNavigator");

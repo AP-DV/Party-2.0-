@@ -12,6 +12,7 @@ import { UserState } from "../../reducers/user";
 import { Fontisto } from "@expo/vector-icons";
 import PhotoModal from "../events/PhotoModal";
 import { BACKENDADRESS } from "../../config";
+import { Button } from "../../ui/button";
 
 type UserScreenProps = {
   navigation: NavigationProp<ParamListBase>;
@@ -20,15 +21,16 @@ type UserScreenProps = {
 export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
   const dispatch = useDispatch();
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordError, setPasswordError] = useState(false);
-  const [missingError, setMissingError] = useState(false);
+  // const [username, setUsername] = useState("");
+  // const [password, setPassword] = useState("");
+  // const [passwordError, setPasswordError] = useState(false);
+  // const [missingError, setMissingError] = useState(false);
   const [photo, setPhoto] = useState<string>("");
   const [isPhotoModalOpened, setIsPhotoModalOpened] = useState(false);
   const [text, onChangeText] = React.useState("Useless Text");
 
   const user = useSelector((state: { user: UserState }) => state.user.value);
+  console.log(user);
 
   const handleAddPhoto = (imageURI: string) => {
     const formData = new FormData();
@@ -51,7 +53,10 @@ export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
 
   console.log(photo);
 
-  console.log(user);
+  const deconnected = () =>  {
+
+  }
+
 
   return (
     <View>
@@ -80,6 +85,11 @@ export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
           <Text style={styles.title}>{user.email}</Text>
           <Text style={styles.title}>{user.userPhoto}</Text>
         </View>
+        <Button 
+                    colour="green"
+                    size="s"
+                    text="Deconnection"
+                    onPress={deconnected}/>
       </View>
     </View>
   );

@@ -33,7 +33,7 @@ export default function FocusocusOnAlbum({ navigation }: UserScreenProps) {
   const [chat, setChat] = useState<Message[]>([]);
   const [message, setMessage] = useState("");
   const [userId, setUserId] = useState("");
-
+  
   useEffect(() => {
     const fetchChatList = async () => {
       try {
@@ -96,13 +96,11 @@ export default function FocusocusOnAlbum({ navigation }: UserScreenProps) {
   };
   getUserId();
 
-  const membersList = event?.memberIds;
-  const member = membersList?.find(
-    (member) => member._id === "698e2c550d2de8ae50233ae2",
-  );
+  console.log(event?.memberIds);
+  
+
   const handleAddMember = () => {};
 
-  console.log(membersList, member?.username);
 
   return (
     <View style={{ height: "100%" }}>
@@ -135,7 +133,7 @@ export default function FocusocusOnAlbum({ navigation }: UserScreenProps) {
                 <View style={styles.notUser}>
                   <Text style={styles.member}>
                     {
-                      membersList?.find((member) => {
+                      event?.memberIds.find((member) => {
                         return member._id === item._userId;
                       })?.username
                     }
