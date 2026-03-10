@@ -10,11 +10,11 @@ export type ButtonProps = {
 export function Button(props: ButtonProps) {
   let padding = 0;
   let textSize = 0;
-  let bottom = 0
+  let bottom = 0;
 
   if (props.size == "s") {
     padding = 10;
-    textSize = 10;
+    textSize = 25;
   } else if (props.size == "m") {
     padding = 20;
     textSize = 30;
