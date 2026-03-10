@@ -37,7 +37,7 @@ export default function SignInModal({
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        username: username,
+        username: username[0].toUpperCase()+username.slice(1).toLowerCase(),
         password: password,
       }),
     })
