@@ -16,7 +16,6 @@ import { Button } from "../../ui/button";
 import { EditButton } from "../../ui/editButton";
 import { DeleteButton } from "../../ui/deleteButton";
 
-
 type UserScreenProps = {
     navigation: NavigationProp<ParamListBase>;
 };
@@ -42,16 +41,13 @@ export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
     const [isPhotoModalOpened, setIsPhotoModalOpened] = useState(false);
     const [text, onChangeText] = React.useState("Useless Text");
 
-
     const handleDeleteUser = async () => {
         const response = await fetch(
             BACKENDADRESS + `/users/delete/${user.token}`,
-            {
-                method: "DELETE",
-            },
+            { method: "DELETE" },
         );
         if (response) {
-            navigation.navigate("Home" );
+            navigation.navigate("Home");
         }
     };
 
@@ -299,17 +295,13 @@ export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
                     </View>
                 </View>
                 <View style={styles.footer}>
-                <Button
-                    colour="red"
-                    size="s"
-                    text="Deconnection"
-                    onPress={deconnected}
-                />
-                <DeleteButton
-                    size="m"
-                    text=""
-                    onPress={handleDeleteUser}
-                />
+                    <Button
+                        colour="red"
+                        size="s"
+                        text="Deconnection"
+                        onPress={deconnected}
+                    />
+                    <DeleteButton size="m" text="" onPress={handleDeleteUser} />
                 </View>
             </View>
         </View>
@@ -411,6 +403,6 @@ const styles = StyleSheet.create({
         alignItems: "flex-start",
     },
     footer: {
-      flexDirection: 'column',
-    }
+        flexDirection: "column",
+    },
 });

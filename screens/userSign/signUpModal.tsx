@@ -56,7 +56,7 @@ export default function SignUpModal({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         email,
-        username : username[0].toUpperCase()+username.slice(1).toLowerCase(),
+        username,
         password,
       }),
     })

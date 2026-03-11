@@ -1,19 +1,14 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import {
   NavigationProp,
-  ParamListBase,
-  useIsFocused,
-  useFocusEffect,
+  ParamListBase
 } from "@react-navigation/native";
 import React from "react";
-import { useEffect, useState } from "react";
 import { FlatList } from "react-native";
-import { BACKENDADRESS } from "../../config";
-import { useDispatch, useSelector } from "react-redux";
-import { UserState } from "../../reducers/user";
-import { Event, EventWithUsers } from "../../types/event";
+import { useDispatch } from "react-redux";
+import { EventWithUsers } from "../../types/event";
 import Header from "../headers/Header";
-import { Fontisto, AntDesign } from "@expo/vector-icons";
+import { Fontisto } from "@expo/vector-icons";
 import { addEvent } from "../../reducers/event";
 import { CreateButton } from "../../ui/createButton";
 import { useGetUserEvents } from "../../hooks/useGetUSerEvents";
@@ -24,9 +19,6 @@ type UserScreenProps = {
 
 export default function ChatsScreen({ navigation }: UserScreenProps) {
   const dispatch = useDispatch();
-
-  // const [chat, setChat] = useState<Event[]>([]);
-  // const [lastmessage, setLastMessage] = useState("");
 
   const events = useGetUserEvents();
 
