@@ -14,6 +14,8 @@ import PhotoModal from "../events/PhotoModal";
 import { BACKENDADRESS } from "../../config";
 import { Button } from "../../ui/button";
 import { EditButton } from "../../ui/editButton";
+import { DeleteButton } from "../../ui/deleteButton";
+
 
 type UserScreenProps = {
     navigation: NavigationProp<ParamListBase>;
@@ -211,12 +213,6 @@ export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
                             <Text style={styles.title}>{user.username}</Text>
                             <Text style={styles.title}>{user.email}</Text>
                         </View>
-                        <Button
-                            colour="red"
-                            size="s"
-                            text="Supprimer le compte"
-                            onPress={handleDeleteUser}
-                        />
                     </View>
                 </View>
                 <View>
@@ -302,12 +298,19 @@ export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
                         />
                     </View>
                 </View>
+                <View style={styles.footer}>
                 <Button
                     colour="red"
                     size="s"
                     text="Deconnection"
                     onPress={deconnected}
                 />
+                <DeleteButton
+                    size="m"
+                    text=""
+                    onPress={handleDeleteUser}
+                />
+                </View>
             </View>
         </View>
     );
@@ -407,4 +410,7 @@ const styles = StyleSheet.create({
         justifyContent: "flex-end",
         alignItems: "flex-start",
     },
+    footer: {
+      flexDirection: 'column',
+    }
 });

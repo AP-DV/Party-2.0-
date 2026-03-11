@@ -7,13 +7,14 @@ export type ButtonProps = {
   size: "s" | "m" | "l";
 };
 
-export function EditButton(props: ButtonProps) {
+export function DeleteButton(props: ButtonProps) {
   let padding = 0;
   let textSize = 0;
   let height = 0;
   let top = 0;
   let textBottom = 0;
-  let bottom = 0
+  let bottom = 0;
+  let left = 0
 
   if (props.size == "s") {
     padding = 8;
@@ -21,8 +22,9 @@ export function EditButton(props: ButtonProps) {
   } else if (props.size == "m") {
     padding = 5;
     textSize = 45;
-    height = 65;
-    top = 50;
+    height = 52.5;
+    top = -82.5;
+    left = 225;
     textBottom = 3;
 
   } else if (props.size == "l") {
@@ -41,11 +43,11 @@ export function EditButton(props: ButtonProps) {
         padding: padding,
         borderRadius: 45,
         margin: 5,
-        borderWidth: 1,
-        borderColor: "white",
-        left: 150,
+        borderWidth: 2,
+        borderColor: "#bf0000",
+        left: left,
         marginTop: 0,
-        width: 65,
+        width: 52.5,
         top: top,
         height: height,
         bottom: bottom
@@ -53,11 +55,11 @@ export function EditButton(props: ButtonProps) {
     >
 <Feather
                   name="trash-2"
-                  size={40}
-                  color={"white"}
+                  size={27.5}
+                  color={"#bf0000"}
                   bottom={0}
-                  top={5}
-                  left={6}
+                  top={4}
+                  left={5}
                 />
     </TouchableOpacity>
   );
