@@ -13,7 +13,8 @@ import { BACKENDADRESS } from "../../config";
 import { UserState } from "../../reducers/user";
 import { useSelector } from "react-redux";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
-import { Event } from "../../types/event";
+import { useGetUserEvents } from "../../hooks/useGetUSerEvents";
+
 
 type EventModalProps = {
     onClose: () => void;
@@ -33,30 +34,10 @@ export default function EventModal({
     title
 }: EventModalProps) {
     const [eventIdChoise, setEventIdChoise] = useState<string>("");
-    const [events, setEvents] = useState<Event[]>([]);
 
     const user = useSelector((state: { user: UserState }) => state.user.value);
 
-    useEffect(() => {
-        const fetchEventList = async () => {
-            try {
-                const response = await fetch(
-                    BACKENDADRESS + `/events/${user.token}`,
-                    {},
-                );
-                const data = await response.json();
-                const date = new Date()   
-                const dateDuJour : string = date.toISOString()          
-                const currentEvents = data.events.filter( (e:Event) => e.startDate.slice(0,10) >= dateDuJour)
-
-                
-                setEvents(currentEvents);
-            } catch (error) {
-                console.error("Erreur de récupération events", error);
-            }
-        };
-        fetchEventList();
-    }, []);
+    const events = useGetUserEvents();
 
     const handleRegister = () => {
         addEvent(eventIdChoise);
