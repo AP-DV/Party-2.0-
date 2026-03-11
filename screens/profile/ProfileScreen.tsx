@@ -1,9 +1,6 @@
 import { StyleSheet, Text, View, Image, TextInput } from "react-native";
 import React from "react";
-import {
-    NavigationProp,
-    ParamListBase,
-} from "@react-navigation/native";
+import { NavigationProp, ParamListBase } from "@react-navigation/native";
 import Header from "../headers/Header";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -50,7 +47,7 @@ export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
         }
     };
 
-    const handleAddPhoto = (imageURI: string) => {
+    const handleAddPhoto = async (imageURI: string) => {
         const formData = new FormData();
         //@ts-expect-error
         formData.append("photoFromFront", {
@@ -58,15 +55,15 @@ export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
             name: "photo.jpg",
             type: "image/jpeg",
         });
-        fetch(BACKENDADRESS + "/upload", {
+        const res = await fetch(BACKENDADRESS + "/upload", {
             method: "POST",
             body: formData,
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log("URI photo =>", data.photo);
-                setPhoto(data.photo.url);
-            });
+        });
+        const data = await res.json();
+        if (data) {
+            console.log("URI photo =>", data.photo);
+            setPhoto(data.photo.url);
+        }
     };
 
     const handleModifiedUsername = () => {

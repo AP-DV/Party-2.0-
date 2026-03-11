@@ -92,7 +92,7 @@ export default function ChatsScreen({ navigation }: UserScreenProps) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#1b1b1b",
-    height: 620,
+    height: '100%',
   },
   header: {
     flexDirection: "row",
