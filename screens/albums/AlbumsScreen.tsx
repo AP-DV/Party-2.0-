@@ -156,6 +156,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     borderColor: "white",
     padding: 15,
+    marginTop: 10
   },
   updPhoto: {
     width: "100%",
@@ -163,5 +164,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 25,
     borderColor: "white",
+    marginBottom:10
   },
 });

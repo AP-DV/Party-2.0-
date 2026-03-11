@@ -359,14 +359,13 @@ const styles = StyleSheet.create({
         padding: 15,
     },
     updPhoto: {
-        width: 120,
-        height: 120,
+        width: 100,
+        height: 100,
         borderWidth: 2,
         borderRadius: 25,
         borderColor: "white",
         marginLeft: 10,
         marginRight: 10,
-        marginTop: 10,
     },
     input: {
         fontSize: 20,

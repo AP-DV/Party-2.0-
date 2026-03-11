@@ -150,9 +150,8 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 25,
     borderColor: "white",
-    marginLeft: 10,
-    marginRight: 10,
-    marginTop: 20,
+    marginTop: 10,
+    marginBottom: -10,
     padding: 10,
   },
   updPhoto: {
