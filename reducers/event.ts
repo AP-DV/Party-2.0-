@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Event, EventWithUsers } from ".././types/event";
+import { EventWithUsers } from ".././types/event";
 import { useSelector } from "react-redux";
 
 export type EventState = {
@@ -20,7 +20,6 @@ export const eventSlice = createSlice({
     removeEvent: (state) => {
       state.value = null;
     },
-
   },
 });
 

@@ -2,15 +2,11 @@ import {
     StyleSheet,
     Text,
     View,
-    TextInput,
-    TouchableOpacity,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { NavigationProp, ParamListBase } from "@react-navigation/native";
 import Header from "../headers/Header";
-import { Button } from "../../ui/button";
 import { BACKENDADRESS } from "../../config";
-import { User } from "../../types/user";
 import { useSelector } from "react-redux";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { Event } from "../../types/event";

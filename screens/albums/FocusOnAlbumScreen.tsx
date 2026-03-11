@@ -1,16 +1,14 @@
-import { StyleSheet, Text, View, TextInput, Image } from "react-native";
+import { StyleSheet, Text, View, Image } from "react-native";
 import {
   NavigationProp,
   ParamListBase,
   useIsFocused,
 } from "@react-navigation/native";
-import { Button } from "../../ui/button";
-import { AddButton } from "../../ui/addButton";
-import { Fontisto, AntDesign } from "@expo/vector-icons";
-import { FlatList, TouchableOpacity } from "react-native";
+import { Fontisto } from "@expo/vector-icons";
+import { FlatList } from "react-native";
 import { BACKENDADRESS } from "../../config";
-import { useSelector, useDispatch } from "react-redux";
-import { EventState, useEventState } from "../../reducers/event";
+import { useSelector } from "react-redux";
+import { useEventState } from "../../reducers/event";
 import { UserState } from "../../reducers/user";
 import { useEffect, useState } from "react";
 import { Photo } from "../../types/photo";
@@ -87,20 +85,20 @@ export default function FocusocusOnAlbum({ navigation }: UserScreenProps) {
       <View style={styles.container}>
         <View style={styles.underHeader}>
           <View>
-          <Text style={styles.title}>{currentAlbum.title}</Text>
-        </View>
-        <MaterialIcons
-          style={styles.photos}
-          name="add-a-photo"
-          size={40}
-          color="white"
-          onPress={() => setIsPhotoModalOpened(true)}
-        />
-        <PhotoModal
-          onClose={() => setIsPhotoModalOpened(false)}
-          visible={isPhotoModalOpened}
-          addPhoto={handleAddPhoto}
-        />
+            <Text style={styles.title}>{currentAlbum.title}</Text>
+          </View>
+          <MaterialIcons
+            style={styles.photos}
+            name="add-a-photo"
+            size={40}
+            color="white"
+            onPress={() => setIsPhotoModalOpened(true)}
+          />
+          <PhotoModal
+            onClose={() => setIsPhotoModalOpened(false)}
+            visible={isPhotoModalOpened}
+            addPhoto={handleAddPhoto}
+          />
         </View>
         <FlatList
           numColumns={3}
@@ -152,14 +150,14 @@ const styles = StyleSheet.create({
     maxHeight: 125,
     width: "100%",
   },
-  underHeader:{
+  underHeader: {
     alignItems: "flex-start",
     justifyContent: "center",
     backgroundColor: "#1b1b1b",
     height: 100,
-    width: '100%',
-    borderBottomWidth:0.2,
-    borderColor: 'white'
+    width: "100%",
+    borderBottomWidth: 0.2,
+    borderColor: "white",
   },
   title: {
     marginTop: 20,
@@ -182,11 +180,11 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   listPosition: {
-    height: '100%',
-    width:'100%',
+    height: "100%",
+    width: "100%",
   },
   photoBox: {
-    width:'33.3333333%',
+    width: "33.3333333%",
     display: "flex",
     flexDirection: "row",
     backgroundColor: "#1b1b1b",
@@ -207,8 +205,8 @@ const styles = StyleSheet.create({
     marginBottom: -1.75,
   },
   updPhoto: {
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
     borderWidth: 0.5,
     borderColor: "white",
     // marginTop: 10,

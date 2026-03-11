@@ -3,7 +3,6 @@ import React from "react";
 import {
     NavigationProp,
     ParamListBase,
-    useNavigation,
 } from "@react-navigation/native";
 import Header from "../headers/Header";
 import { useState } from "react";

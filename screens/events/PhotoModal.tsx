@@ -5,7 +5,6 @@ import {
     StyleSheet,
     Modal,
     Image,
-    ScrollView,
     TouchableOpacity,
 } from "react-native";
 import { useState } from "react";

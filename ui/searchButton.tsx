@@ -1,5 +1,5 @@
 import { TouchableOpacity, Text } from "react-native";
-import { Fontisto, AntDesign, Feather, FontAwesome } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 
 export type ButtonProps = {
   text: string;

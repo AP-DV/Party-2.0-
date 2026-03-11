@@ -4,9 +4,7 @@ import {
     View,
     StyleSheet,
     Modal,
-    TextInput,
     ScrollView,
-    TouchableOpacity,
 } from "react-native";
 import { useState } from "react";
 import { Xbutton } from "../../ui/xButton";

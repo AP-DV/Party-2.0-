@@ -1,5 +1,5 @@
 import { TouchableOpacity, Text } from "react-native";
-import { Fontisto, AntDesign, Feather } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 
 export type ButtonProps = {
   text: string;
@@ -14,7 +14,7 @@ export function DeleteButton(props: ButtonProps) {
   let top = 0;
   let textBottom = 0;
   let bottom = 0;
-  let left = 0
+  let left = 0;
 
   if (props.size == "s") {
     padding = 8;
@@ -26,14 +26,13 @@ export function DeleteButton(props: ButtonProps) {
     top = -82.5;
     left = 225;
     textBottom = 3;
-
   } else if (props.size == "l") {
     padding = 5;
     textSize = 45;
     height = 65;
     textBottom = 14;
     top = -50;
-    bottom = 50
+    bottom = 50;
   }
 
   return (
@@ -50,17 +49,17 @@ export function DeleteButton(props: ButtonProps) {
         width: 52.5,
         top: top,
         height: height,
-        bottom: bottom
+        bottom: bottom,
       }}
     >
-<Feather
-                  name="trash-2"
-                  size={27.5}
-                  color={"#bf0000"}
-                  bottom={0}
-                  top={4}
-                  left={5}
-                />
+      <Feather
+        name="trash-2"
+        size={27.5}
+        color={"#bf0000"}
+        bottom={0}
+        top={4}
+        left={5}
+      />
     </TouchableOpacity>
   );
 }

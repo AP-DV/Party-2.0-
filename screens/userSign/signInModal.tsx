@@ -6,8 +6,6 @@ import { Xbutton } from "../../ui/xButton";
 import { useDispatch } from "react-redux";
 import { login } from "../../reducers/user";
 import {
-    NavigationProp,
-    ParamListBase,
     useNavigation,
 } from "@react-navigation/native";
 import { BACKENDADRESS } from "../../config";

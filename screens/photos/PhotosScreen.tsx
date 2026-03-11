@@ -3,7 +3,6 @@ import {
   StyleSheet,
   Text,
   View,
-  Touchable,
   TouchableOpacity,
 } from "react-native";
 import { CameraView, Camera, CameraType, FlashMode } from "expo-camera";
@@ -18,7 +17,6 @@ import { useSelector } from "react-redux";
 import { UserState } from "../../reducers/user";
 import { useEventState } from "../../reducers/event";
 import EventModal from "./EventModal";
-import { Button } from "../../ui/button";
 
 type UserScreenProps = {
   navigation: NavigationProp<ParamListBase>;

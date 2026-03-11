@@ -3,7 +3,7 @@ import { useEvent } from 'expo';
 import { useVideoPlayer, VideoView } from "expo-video";
 import { Button } from "../../ui/button";
 import { NavigationProp, ParamListBase } from "@react-navigation/native";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import SignUpModal from "./signUpModal";
 import SignInModal from "./signInModal";
 import { SafeAreaView } from "react-native-safe-area-context";

@@ -6,22 +6,20 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { NavigationProp, ParamListBase } from "@react-navigation/native";
 import { Button } from "../../ui/button";
 import { Fontisto, AntDesign } from "@expo/vector-icons";
 import FriendsModal from "./FriendsModal";
 import PhotoModal from "./PhotoModal";
 import { BACKENDADRESS } from "../../config";
-import { useSelector, useDispatch } from "react-redux";
-import { EventState, useEventState } from "../../reducers/event";
+import { useSelector } from "react-redux";
+import { useEventState } from "../../reducers/event";
 import { UserState } from "../../reducers/user";
-import { addEvent, removeEvent } from "../../reducers/event";
 import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
 import Header from "../headers/Header";
-import { current } from "@reduxjs/toolkit";
 
 type UserScreenProps = {
   navigation: NavigationProp<ParamListBase>;
@@ -310,7 +308,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "white",
   },
-    titleInput: {
+  titleInput: {
     fontSize: 20,
     fontWeight: "bold",
     textAlign: "center",
@@ -370,7 +368,7 @@ const styles = StyleSheet.create({
     borderColor: "white",
     marginLeft: 10,
     marginRight: 10,
-    padding:15
+    padding: 15,
   },
   friends: {
     backgroundColor: "#323232",

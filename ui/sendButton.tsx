@@ -1,5 +1,5 @@
-import { TouchableOpacity, Text } from "react-native";
-import { Fontisto, AntDesign, Feather, MaterialCommunityIcons } from "@expo/vector-icons";
+import { TouchableOpacity } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
 
 export type ButtonProps = {
   text: string;
@@ -11,9 +11,7 @@ export function SendButton(props: ButtonProps) {
   let padding = 0;
   let textSize = 0;
   let height = 0;
-  // let top = 0;
   let textBottom = 0;
-  // let bottom = 0;
 
   if (props.size == "s") {
     padding = 8;
@@ -22,15 +20,12 @@ export function SendButton(props: ButtonProps) {
     padding = 5;
     textSize = 45;
     height = 50;
-    // top = 50;
     textBottom = 3;
   } else if (props.size == "l") {
     padding = 5;
     textSize = 45;
     height = 65;
     textBottom = 14;
-    // top = -50;
-    // bottom = 50;
   }
 
   return (
@@ -44,7 +39,7 @@ export function SendButton(props: ButtonProps) {
         marginTop: 0,
         width: 50,
         height: height,
-        backgroundColor: "#7fb8ff"
+        backgroundColor: "#7fb8ff",
       }}
     >
       <AntDesign

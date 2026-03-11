@@ -1,8 +1,6 @@
-import { StyleSheet, Text, View, Image } from "react-native";
-import React, { useState } from "react";
+import { StyleSheet, View, Image } from "react-native";
+import React from "react";
 import {
-  NavigationProp,
-  ParamListBase,
   useNavigation,
 } from "@react-navigation/native";
 import EvilIcons from "@expo/vector-icons/EvilIcons";

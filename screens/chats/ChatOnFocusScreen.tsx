@@ -4,20 +4,14 @@ import {
   ParamListBase,
   useIsFocused,
 } from "@react-navigation/native";
-import { Button } from "../../ui/button";
-import { AddButton } from "../../ui/addButton";
-import { Fontisto, AntDesign } from "@expo/vector-icons";
-import { FlatList, TouchableOpacity } from "react-native";
+import { FlatList } from "react-native";
 import { BACKENDADRESS } from "../../config";
-import { useSelector, useDispatch } from "react-redux";
-import { EventState, useEventState } from "../../reducers/event";
+import { useSelector } from "react-redux";
+import { useEventState } from "../../reducers/event";
 import { UserState } from "../../reducers/user";
 import React, { useEffect, useState } from "react";
 import { Message } from "../../types/message";
-import { CreateButton } from "../../ui/createButton";
 import Header from "../headers/Header";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import PhotoModal from "../events/PhotoModal";
 import { SendButton } from "../../ui/sendButton";
 import { AddMemberButton } from "../../ui/addMemberButton";
 
