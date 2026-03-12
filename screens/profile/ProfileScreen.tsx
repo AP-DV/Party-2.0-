@@ -23,7 +23,7 @@ export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
     const dispatch = useDispatch();
 
     const user = useSelector((state: { user: UserState }) => state.user.value);
-    console.log("User =>", user);
+
 
     const [photo, setPhoto] = useState<string>("");
     const [email, setEmail] = useState("");
@@ -61,8 +61,29 @@ export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
         });
         const data = await res.json();
         if (data) {
-            console.log("URI photo =>", data.photo);
             setPhoto(data.photo.url);
+
+            fetch(BACKENDADRESS + `/users/update/${user.token}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    userPhoto: photo,
+                }),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.token) {
+                        dispatch(
+                            login({
+                                email: data.user.email,
+                                username: data.user.username,
+                                token: data.token,
+                                userPhoto: data.user.userPhoto,
+                            }),
+                        );
+                    }
+                })
+                .catch(console.error);
         }
     };
 
@@ -149,7 +170,6 @@ export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
                         setOldPassword("");
                     }
                     if (data.user) {
-                        console.log(data.user);
                         dispatch(
                             login({
                                 email: data.user.email,
@@ -187,10 +207,10 @@ export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
                         addPhoto={handleAddPhoto}
                     />
                     <View style={styles.user}>
-                        {photo ? (
+                        {user.userPhoto ? (
                             <Image
                                 style={styles.updPhoto}
-                                source={{ uri: photo }}
+                                source={{ uri: user.userPhoto }}
                             />
                         ) : (
                             <Fontisto

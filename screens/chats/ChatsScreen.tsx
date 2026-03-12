@@ -5,13 +5,14 @@ import {
 } from "@react-navigation/native";
 import React from "react";
 import { FlatList } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { EventWithUsers } from "../../types/event";
 import Header from "../headers/Header";
 import { Fontisto } from "@expo/vector-icons";
 import { addEvent } from "../../reducers/event";
 import { CreateButton } from "../../ui/createButton";
 import { useGetUserEvents } from "../../hooks/useGetUSerEvents";
+import { UserState } from "../../reducers/user";
 
 type UserScreenProps = {
   navigation: NavigationProp<ParamListBase>;
@@ -21,6 +22,8 @@ export default function ChatsScreen({ navigation }: UserScreenProps) {
   const dispatch = useDispatch();
 
   const events = useGetUserEvents();
+
+  const user = useSelector((state: { user: UserState }) => state.user.value);
 
   const handleCreateChat = () => {
     navigation.navigate("CreateChat");
