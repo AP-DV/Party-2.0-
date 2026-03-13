@@ -27,6 +27,7 @@ export default function FocusocusOnAlbum({ navigation }: UserScreenProps) {
   const [chat, setChat] = useState<Message[]>([]);
   const [message, setMessage] = useState("");
   const [userId, setUserId] = useState("");
+  // const [notUserId, setNotUserId] = useState("");
   
   useEffect(() => {
     const fetchChatList = async () => {
@@ -125,6 +126,14 @@ export default function FocusocusOnAlbum({ navigation }: UserScreenProps) {
                 </View>
               ) : (
                 <View style={styles.notUser}>
+                  <Image 
+                    style={styles.userPhoto}
+                    source={{ uri:  
+                      event?.memberIds.find((member) => {
+                        return member._id === item._userId;
+                      })?.userPhoto
+                     }}
+                  />
                   <Text style={styles.member}>
                     {
                       event?.memberIds.find((member) => {
@@ -197,6 +206,13 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
     padding: 15,
+  },
+  userPhoto: {
+    width: 30,
+    height: 30,
+    borderWidth: 2,
+    borderRadius: 25,
+    borderColor: "white",
   },
   listPosition: {
     width: "100%",

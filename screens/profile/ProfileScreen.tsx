@@ -1,4 +1,11 @@
-import { StyleSheet, Text, View, Image, TextInput } from "react-native";
+import {
+    StyleSheet,
+    Text,
+    View,
+    Image,
+    TextInput,
+    TouchableOpacity,
+} from "react-native";
 import React from "react";
 import { NavigationProp, ParamListBase } from "@react-navigation/native";
 import Header from "../headers/Header";
@@ -23,7 +30,6 @@ export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
     const dispatch = useDispatch();
 
     const user = useSelector((state: { user: UserState }) => state.user.value);
-
 
     const [photo, setPhoto] = useState<string>("");
     const [email, setEmail] = useState("");
@@ -72,6 +78,7 @@ export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
             })
                 .then((response) => response.json())
                 .then((data) => {
+                    console.log("profile", data);
                     if (data.token) {
                         dispatch(
                             login({
@@ -208,10 +215,14 @@ export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
                     />
                     <View style={styles.user}>
                         {user.userPhoto ? (
-                            <Image
-                                style={styles.updPhoto}
-                                source={{ uri: user.userPhoto }}
-                            />
+                            <TouchableOpacity
+                                onPress={() => setIsPhotoModalOpened(true)}
+                            >
+                                <Image
+                                    style={styles.updPhoto}
+                                    source={{ uri: user.userPhoto }}
+                                />
+                            </TouchableOpacity>
                         ) : (
                             <Fontisto
                                 style={styles.photos}

@@ -17,7 +17,6 @@ export default function Header({
     const navigation = useNavigation<any>();
 
     const user = useSelector((state: { user: UserState }) => state.user.value);
-    console.log("User =>", user);
 
     const handleGoBack = () => {
         navigation.navigate(destination);
@@ -38,27 +37,31 @@ export default function Header({
                     onPress={handleGoBack}
                 />
             )}
-            <Image
-                source={require("../../assets/Party Logo.png")}
-                style={styles.logo}
-                resizeMode="contain"
-            />
-
-            {user.userPhoto ? (
+            
+            <TouchableOpacity
+                style={{ width: 70, height: 70 }}
+                onPress={handleGoProfile}
+            >
+                {user.userPhoto ? (
                     <Image
                         style={styles.updPhoto}
                         source={{ uri: user.userPhoto }}
                     />
                 ) : (
                     <EvilIcons
-                    style={styles.userIcon}
-                    name="user"
-                    size={45}
-                    color="white"
-                    onPress={handleGoProfile}
+                        style={styles.userIcon}
+                        name="user"
+                        size={45}
+                        color="white"
+                        onPress={handleGoProfile}
                     />
                 )}
-
+            </TouchableOpacity>
+            <Image
+                source={require("../../assets/Party Logo.png")}
+                style={styles.logo}
+                resizeMode="contain"
+            />
             <Ionicons
                 style={styles.notifIcon}
                 name="notifications-outline"
@@ -71,7 +74,6 @@ export default function Header({
 
 const styles = StyleSheet.create({
     header: {
-        flex: 1,
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
@@ -81,6 +83,7 @@ const styles = StyleSheet.create({
         width: "100%",
         borderBottomWidth: 0.2,
         borderColor: "white",
+        paddingTop : 40,
     },
     title: {
         fontSize: 40,
@@ -89,46 +92,23 @@ const styles = StyleSheet.create({
         color: "#fff",
     },
     logo: {
-        position: "absolute",
-        width: 70,
-        height: 70,
-        left: 152,
-        top: 33,
+        width: 60,
+        height: 60,
     },
     username: {
-        position: "absolute",
         color: "white",
-        left: 220,
+
         marginTop: 50,
         fontSize: 11,
     },
     updPhoto: {
-        position: "absolute",
-        width: 37,
-        height: 37,
-        borderWidth: 2,
-        borderRadius: 25,
-        borderColor: "white",
-        marginLeft: 10,
-        marginRight: 10,
-        left: 260,
-        top: 47.5,
-    },
-    userIcon: {
-        position: "absolute",
         width: 60,
         height: 60,
-        left: 275,
-        top: 50,
     },
-    notifIcon: {
-        position: "absolute",
-        left: 325,
-        top: 50,
+    userIcon: {
+        width: 60,
+        height: 60,
     },
-    arrow: {
-        position: "absolute",
-        left: 20,
-        top: 50,
-    },
+    notifIcon: {},
+    arrow: {},
 });
