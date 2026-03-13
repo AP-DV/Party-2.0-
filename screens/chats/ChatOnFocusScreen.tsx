@@ -28,7 +28,7 @@ export default function FocusocusOnAlbum({ navigation }: UserScreenProps) {
   const [message, setMessage] = useState("");
   const [userId, setUserId] = useState("");
   // const [notUserId, setNotUserId] = useState("");
-  
+
   useEffect(() => {
     const fetchChatList = async () => {
       try {
@@ -92,10 +92,8 @@ export default function FocusocusOnAlbum({ navigation }: UserScreenProps) {
   getUserId();
 
   console.log(event?.memberIds);
-  
 
   const handleAddMember = () => {};
-
 
   return (
     <View style={{ height: "100%" }}>
@@ -126,13 +124,13 @@ export default function FocusocusOnAlbum({ navigation }: UserScreenProps) {
                 </View>
               ) : (
                 <View style={styles.notUser}>
-                  <Image 
+                  <Image
                     style={styles.userPhoto}
-                    source={{ uri:  
-                      event?.memberIds.find((member) => {
+                    source={{
+                      uri: event?.memberIds.find((member) => {
                         return member._id === item._userId;
-                      })?.userPhoto
-                     }}
+                      })?.userPhoto,
+                    }}
                   />
                   <Text style={styles.member}>
                     {
