@@ -43,7 +43,7 @@ export default function FriendsScreen({ navigation }: UserScreenProps) {
         fetchUsersList();
     }, []);
 
-    const handleAddFriend = () => {
+    const handleAddFriend = async () => {
         if (newFriendName) {
             const friend = users.find(
                 (user) => user.username === newFriendName,
@@ -55,24 +55,26 @@ export default function FriendsScreen({ navigation }: UserScreenProps) {
             }
             if (!friendsList.includes(friend)) {
                 setFriendsList([...friendsList, friend]);
-                dispatch(addFriend(friend._id));
+
+                const response = await fetch(
+                    BACKENDADRESS + `/users/update/${user.token}`,
+                    {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ friendId: friend._id }),
+                    },
+                );
+                const data = await response.json();
+                if (data) {
+                    console.log(data);
+                    dispatch(addFriend(friend._id));
+                }
             }
-
-            // fetch(BACKENDADRESS + `/users/${friendName}`, {
-            //     method: "POST",
-            //     headers: { "Content-Type": "application/json" },
-            //     body: JSON.stringify({}),
-            // })
-            // const data = await response.json()
-            // if(data) {
-            //         console.log(data);
-
-            //     };
-            setNewFriendName("");
         }
+        setNewFriendName("");
     };
 
-    const handleRemoveFriend = () => {
+    const handleRemoveFriend = async () => {
         if (oldFriendName) {
             const friend = users.find(
                 (user) => user.username === oldFriendName,
@@ -84,21 +86,27 @@ export default function FriendsScreen({ navigation }: UserScreenProps) {
             }
 
             setFriendsList(friendsList.filter((e) => e._id !== friend._id));
-            dispatch(removeFriend(friend._id));
 
-            // fetch(BACKENDADRESS + `/users/${friendName}`, {
-            //     method: "POST",
-            //     headers: { "Content-Type": "application/json" },
-            //     body: JSON.stringify({}),
-            // })
-            // const data = await response.json()
-            // if(data) {
-            //         console.log(data);
-
-            //     };
-            setOldFriendName("");
+            const response = await fetch(
+                BACKENDADRESS + `/users/update/${user.token}`,
+                {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        friendId: friend._id,
+                        remove: true,
+                    }),
+                },
+            );
+            const data = await response.json();
+            if (data) {
+                console.log(data);
+                dispatch(removeFriend(friend._id));
+            }
         }
+        setOldFriendName("");
     };
+console.log(user);
 
     return (
         <View>
