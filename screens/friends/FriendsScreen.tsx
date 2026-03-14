@@ -106,7 +106,7 @@ export default function FriendsScreen({ navigation }: UserScreenProps) {
         }
         setOldFriendName("");
     };
-console.log(user);
+    console.log(user);
 
     return (
         <View>
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         backgroundColor: "#fff",
         width: "100%",
-        height: "100%",
+        height: "85%",
     },
     header: {
         flexDirection: "row",
@@ -236,8 +236,8 @@ const styles = StyleSheet.create({
         alignContent: "center",
     },
     listPosition: {
-        height: 100,
-        width: 200,
+        height: "100%",
+        width: "100%",
     },
     addFriend: {
         height: "30%",

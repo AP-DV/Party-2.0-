@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     justifyContent: "center",
     backgroundColor: "#1b1b1b",
-    height: "83.25%",
+    height: "85%",
   },
   header: {
     flexDirection: "row",
