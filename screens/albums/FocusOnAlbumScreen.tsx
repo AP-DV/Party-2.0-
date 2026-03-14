@@ -120,15 +120,8 @@ export default function FocusocusOnAlbum({ navigation }: UserScreenProps) {
           renderItem={({ item }) => (
             <View style={styles.photoBox}>
               {item.uri ? (
-                <View>
-                  {/* <Xbutton
-                                        colour="blue"
-                                        size="m"
-                                        text="X"
-                                        onPress={() => handleDeletePhoto(item)}
-                                    /> */}
-                  <Image style={styles.updPhoto} source={{ uri: item.uri }} />
-                </View>
+  
+                  <Image style={styles.updPhoto} source={{ uri: item.uri }}/> 
               ) : (
                 <Fontisto
                   style={styles.photos}
