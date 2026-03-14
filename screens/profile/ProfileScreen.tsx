@@ -92,6 +92,7 @@ export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
                 })
                 .catch(console.error);
         }
+        setPhoto('')
     };
 
     const handleModifiedUsername = () => {

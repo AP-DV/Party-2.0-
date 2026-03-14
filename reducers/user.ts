@@ -5,7 +5,7 @@ export type UserState = {
         email: string | null;
         username: string | null;
         token: string | null;
-        friendsIds: string[];
+        friendIds: string[];
         userPhoto: string | null;
     };
 };
@@ -15,7 +15,7 @@ const initialState: UserState = {
         email: null,
         username: null,
         token: null,
-        friendsIds: [],
+        friendIds: [],
         userPhoto: null,
     },
 };
@@ -45,10 +45,10 @@ export const userSlice = createSlice({
             state.value.userPhoto = null;
         },
         addFriend: (state, action: PayloadAction<string>) => {
-            state.value.friendsIds.push(action.payload);
+            state.value.friendIds.push(action.payload);
         },
         removeFriend: (state, action: PayloadAction<string>) => {
-            state.value.friendsIds = state.value.friendsIds.filter(
+            state.value.friendIds = state.value.friendIds.filter(
                 (friend: string) => friend !== action.payload,
             );
         },
