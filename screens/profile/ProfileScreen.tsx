@@ -18,6 +18,7 @@ import { BACKENDADRESS } from "../../config";
 import { Button } from "../../ui/button";
 import { EditButton } from "../../ui/editButton";
 import { DeleteButton } from "../../ui/deleteButton";
+import DeleteAccountModal from "./DeleteAccountModal";
 
 type UserScreenProps = {
     navigation: NavigationProp<ParamListBase>;
@@ -42,16 +43,7 @@ export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
     const [usernameError, setUsernameError] = useState(false);
     const [isPhotoModalOpened, setIsPhotoModalOpened] = useState(false);
     const [text, onChangeText] = React.useState("Useless Text");
-
-    const handleDeleteUser = async () => {
-        const response = await fetch(
-            BACKENDADRESS + `/users/delete/${user.token}`,
-            { method: "DELETE" },
-        );
-        if (response) {
-            navigation.navigate("Home");
-        }
-    };
+    const [isDeleteModalOpened, setIsDeleteModalOpened] = useState(false);
 
     const handleAddPhoto = async (imageURI: string) => {
         const formData = new FormData();
@@ -92,7 +84,7 @@ export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
                 })
                 .catch(console.error);
         }
-        setPhoto('')
+        setPhoto("");
     };
 
     const handleModifiedUsername = () => {
@@ -290,6 +282,7 @@ export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
                             <TextInput
                                 style={styles.input}
                                 placeholder="Ancien mot de passe..."
+                                secureTextEntry
                                 placeholderTextColor="grey"
                                 onChangeText={(value) => setOldPassword(value)}
                                 value={oldPassword}
@@ -300,6 +293,7 @@ export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
                             <TextInput
                                 style={styles.input}
                                 placeholder="Nouveau mot de passe..."
+                                secureTextEntry
                                 placeholderTextColor="grey"
                                 onChangeText={(value) => setNewPassword(value)}
                                 value={newPassword}
@@ -329,9 +323,14 @@ export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
                         text="Deconnection"
                         onPress={deconnected}
                     />
-                    <DeleteButton size="m" text="" onPress={handleDeleteUser} />
+                    <DeleteButton size="m" text="" onPress={() =>setIsDeleteModalOpened(true)}/>
                 </View>
             </View>
+            <DeleteAccountModal
+                onClose={() => setIsDeleteModalOpened(false)}
+                visible={isDeleteModalOpened}
+                navigation={navigation}
+            />
         </View>
     );
 }

@@ -80,6 +80,7 @@ export default function SignInModal({
                 <TextInput
                     style={styles.input}
                     placeholder="mot de passe"
+                    secureTextEntry
                     placeholderTextColor="grey"
                     onChangeText={setPassword}
                     value={password}

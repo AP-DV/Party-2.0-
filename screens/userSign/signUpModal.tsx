@@ -103,6 +103,7 @@ export default function SignUpModal({
           style={styles.input}
           placeholder="Mot de passe"
           placeholderTextColor="grey"
+          secureTextEntry
           onChangeText={(value) => setPassword(value)}
           value={password}
         />
@@ -110,6 +111,7 @@ export default function SignUpModal({
           style={styles.input}
           placeholder="Vérification du Mot de passe"
           placeholderTextColor="grey"
+          secureTextEntry
           onChangeText={(value) => setIsGoodPassword(value)}
           value={isGoodPassword}
         />
