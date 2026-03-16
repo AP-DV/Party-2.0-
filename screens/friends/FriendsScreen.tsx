@@ -8,7 +8,8 @@ import {
 } from "react-native";
 import React, { useEffect } from "react";
 import { NavigationProp, ParamListBase } from "@react-navigation/native";
-import { Button } from "../../ui/button";
+import { AddButton } from "../../ui/addButton";
+import { DeleteButton } from "../../ui/deleteButton";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { UserState, addFriend, removeFriend } from "../../reducers/user";
@@ -26,7 +27,8 @@ export default function FriendsScreen({ navigation }: UserScreenProps) {
     const [oldFriendName, setOldFriendName] = useState<string>("");
     const [users, setUsers] = useState<User[]>([]);
     const [friendsList, setFriendsList] = useState<User[]>([]);
-    const [friendError, setFriendError] = useState(false);
+    const [addError, setAddError] = useState<string | null>(null);
+    const [removeError, setRemoveError] = useState<string | null>(null);
 
     const user = useSelector((state: { user: UserState }) => state.user.value);
 
@@ -44,72 +46,88 @@ export default function FriendsScreen({ navigation }: UserScreenProps) {
     }, []);
 
     const handleAddFriend = async () => {
-        if (newFriendName) {
-            const friend = users.find(
-                (user) => user.username === newFriendName,
-            );
+        if (!newFriendName) return;
+        setAddError(null);
 
-            if (!friend) {
-                setFriendError(true);
-                return;
-            }
-            if (!friendsList.includes(friend)) {
-                setFriendsList([...friendsList, friend]);
+        const friend = users.find((user) => user.username === newFriendName);
 
-                const response = await fetch(
-                    BACKENDADRESS + `/users/update/${user.token}`,
-                    {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ friendId: friend._id }),
-                    },
-                );
-                const data = await response.json();
-                if (data) {
-                    console.log(data);
-                    dispatch(addFriend(friend._id));
-                }
-            }
+        if (!friend) {
+            setAddError("Cet utilisateur n'existe pas.");
+            return;
         }
-        setNewFriendName("");
+
+        if (friendsList.includes(friend)) {
+            setAddError("Cet utilisateur est déjà dans votre liste d'amis.");
+            return;
+        }
+
+        try {
+            const response = await fetch(BACKENDADRESS + "/users/update", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${user.token}`,
+                },
+                body: JSON.stringify({ friendId: friend._id }),
+            });
+            if (!response.ok) {
+                throw new Error(`Erreur serveur : ${response.status}`);
+            }
+            setFriendsList([...friendsList, friend]);
+            dispatch(addFriend(friend._id));
+            setNewFriendName("");
+        } catch (error) {
+            setAddError("Une erreur est survenue lors de l'ajout.");
+            console.error("Erreur ajout ami", error);
+        }
     };
 
     const handleRemoveFriend = async () => {
-        if (oldFriendName) {
-            const friend = users.find(
-                (user) => user.username === oldFriendName,
+        if (!oldFriendName) {
+            return;
+        }
+
+        const friend = users.find((user) => user.username === oldFriendName);
+
+        if (!friend) {
+            setRemoveError("Cet utilisateur n'existe pas.");
+            return;
+        }
+
+        if (!friendsList.includes(friend)) {
+            setRemoveError(
+                "Cet utilisateur n'est pas dans votre liste d'amis.",
             );
-
-            if (!friend) {
-                setFriendError(true);
-                return;
+            return;
+        }
+        try {
+            const response = await fetch(BACKENDADRESS + "/users/update", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${user.token}`,
+                },
+                body: JSON.stringify({
+                    friendId: friend._id,
+                    remove: true,
+                }),
+            });
+            if (!response.ok) {
+                throw new Error(`Erreur serveur : ${response.status}`);
             }
-
             setFriendsList(friendsList.filter((e) => e._id !== friend._id));
 
-            const response = await fetch(
-                BACKENDADRESS + `/users/update/${user.token}`,
-                {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        friendId: friend._id,
-                        remove: true,
-                    }),
-                },
-            );
-            const data = await response.json();
-            if (data) {
-                console.log(data);
-                dispatch(removeFriend(friend._id));
-            }
+            dispatch(removeFriend(friend._id));
+
+            setOldFriendName("");
+        } catch (error) {
+            setRemoveError("Une erreur est survenue lors de la suppression.");
+            console.error("Erreur suppression ami", error);
         }
-        setOldFriendName("");
     };
-    console.log(user);
 
     return (
-        <View>
+        <View style={styles.screen}>
             <View style={styles.header}>
                 <Header destination={"Events"} goBack={false} />
             </View>
@@ -125,7 +143,7 @@ export default function FriendsScreen({ navigation }: UserScreenProps) {
                         </View>
                     )}
                 />
-                <Text style={styles.title}>Liste des users : </Text>
+                <Text style={styles.title}>Liste des utilisateurs : </Text>
                 <FlatList
                     style={styles.listPosition}
                     data={users}
@@ -141,39 +159,40 @@ export default function FriendsScreen({ navigation }: UserScreenProps) {
                     )}
                 />
                 <Text style={styles.title}>Ajoute un ami </Text>
-                <View style={styles.addFriend}>
+                <View style={styles.formBlock}>
                     <TextInput
                         style={styles.input}
                         placeholder="Nom de ton futur ami ..."
                         placeholderTextColor="grey"
-                        onChangeText={(value) => setNewFriendName(value)}
+                        onChangeText={(value) => {
+                            (setNewFriendName(value), setAddError(null));
+                        }}
                         value={newFriendName}
                     />
-                    {friendError && (
-                        <Text style={styles.error}>L'user n'existe pas</Text>
-                    )}
-                    <Button
-                        colour="grey"
+                    {addError && <Text style={styles.error}>{addError}</Text>}
+                    <AddButton
+                        colour="blue"
                         size="s"
                         text="+"
                         onPress={handleAddFriend}
                     />
-                    <Text style={styles.title}>Supprime un ami </Text>
                 </View>
-                <View style={styles.addFriend}>
+                <Text style={styles.title}>Supprime un ami </Text>
+                <View style={styles.formBlock}>
                     <TextInput
                         style={styles.input}
                         placeholder="Nom de ton ancien ami ..."
                         placeholderTextColor="grey"
-                        onChangeText={(value) => setOldFriendName(value)}
+                        onChangeText={(value) => {
+                            (setOldFriendName(value), setRemoveError(null));
+                        }}
                         value={oldFriendName}
                     />
-                    {friendError && (
-                        <Text style={styles.error}>L'user n'existe pas</Text>
+                    {removeError && (
+                        <Text style={styles.error}>{removeError}</Text>
                     )}
-                    <Button
-                        colour="grey"
-                        size="s"
+                    <DeleteButton
+                        size="m"
                         text="-"
                         onPress={handleRemoveFriend}
                     />
@@ -184,12 +203,9 @@ export default function FriendsScreen({ navigation }: UserScreenProps) {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        alignItems: "center",
-        justifyContent: "center",
+    screen: {
+        flex: 1,
         backgroundColor: "#fff",
-        width: "100%",
-        height: "85%",
     },
     header: {
         flexDirection: "row",
@@ -199,24 +215,26 @@ const styles = StyleSheet.create({
         maxHeight: 155,
         width: "100%",
     },
-    title: {
-        fontSize: 30,
-        fontWeight: "bold",
-        textAlign: "center",
+    container: {
+        flex: 1,
     },
-    input: {
-        fontSize: 20,
+    title: {
+        fontSize: 25,
         fontWeight: "bold",
         textAlign: "center",
-        height: 50,
-        margin: 10,
-        borderWidth: 1,
-        padding: 10,
-        backgroundColor: "#323232",
-        color: "grey",
-        borderColor: "white",
-        borderRadius: 17,
+        marginTop: 10,
+        marginBottom: 10,
+    },
+    listPosition: {
         width: "100%",
+        maxHeight: 100, // Borne la FlatList pour éviter le chevauchement
+    },
+    infosBox: {
+        flexDirection: "row",
+        justifyContent: "space-around",
+        alignItems: "center",
+        borderBottomWidth: 1,
+        borderBottomColor: "#eee",
     },
     userPhoto: {
         width: 30,
@@ -230,21 +248,30 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         textAlign: "left",
     },
-    infosBox: {
-        flexDirection: "row",
-        justifyContent: "space-around",
-        alignContent: "center",
+    formBlock: {
+        flexDirection: 'row',
+        alignItems: "center",
+        justifyContent : 'space-between',
+        paddingHorizontal: 10,
     },
-    listPosition: {
-        height: "100%",
-        width: "100%",
-    },
-    addFriend: {
-        height: "30%",
-        width: "80%",
+    input: {
+        flex : 1,
+        fontSize: 20,
+        fontWeight: "bold",
+        textAlign: "center",
+        height: 50,
+        marginRight: 10,
+        borderWidth: 1,
+        padding: 10,
+        backgroundColor: "#323232",
+        color: "grey",
+        borderColor: "white",
+        borderRadius: 17,
     },
     error: {
         marginTop: 10,
+        fontSize: 15,
         color: "red",
+        textAlign: "center",
     },
 });

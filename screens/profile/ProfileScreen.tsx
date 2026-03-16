@@ -19,6 +19,7 @@ import { Button } from "../../ui/button";
 import { EditButton } from "../../ui/editButton";
 import { DeleteButton } from "../../ui/deleteButton";
 import DeleteAccountModal from "./DeleteAccountModal";
+import { User } from "../../types/user";
 
 type UserScreenProps = {
     navigation: NavigationProp<ParamListBase>;
@@ -26,6 +27,8 @@ type UserScreenProps = {
 
 const EMAIL_REGEX: RegExp = /./;
 //    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+//    /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+//    /^\S+@\S+\.\S+$/
 
 export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
     const dispatch = useDispatch();
@@ -45,6 +48,17 @@ export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
     const [text, onChangeText] = React.useState("Useless Text");
     const [isDeleteModalOpened, setIsDeleteModalOpened] = useState(false);
 
+    const updateReduxUser = (data: User, token: string) => {
+        dispatch(
+            login({
+                email: data.email,
+                username: data.username,
+                token: token,
+                userPhoto: data.userPhoto,
+            }),
+        );
+    };
+
     const handleAddPhoto = async (imageURI: string) => {
         const formData = new FormData();
         //@ts-expect-error
@@ -59,27 +73,24 @@ export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
         });
         const data = await res.json();
         if (data) {
-            setPhoto(data.photo.url);
+            const url = data.photo.url;
+            setPhoto(url);
 
-            fetch(BACKENDADRESS + `/users/update/${user.token}`, {
+            fetch(BACKENDADRESS + "/users/update", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${user.token}`,
+                },
                 body: JSON.stringify({
-                    userPhoto: photo,
+                    userPhoto: url,
                 }),
             })
                 .then((response) => response.json())
                 .then((data) => {
                     console.log("profile", data);
                     if (data.token) {
-                        dispatch(
-                            login({
-                                email: data.user.email,
-                                username: data.user.username,
-                                token: data.token,
-                                userPhoto: data.user.userPhoto,
-                            }),
-                        );
+                        updateReduxUser(data.user, data.token);
                     }
                 })
                 .catch(console.error);
@@ -90,10 +101,14 @@ export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
     const handleModifiedUsername = () => {
         if (!username) {
             setUsernameError(true);
+            return;
         } else {
-            fetch(BACKENDADRESS + `/users/update/${user.token}`, {
+            fetch(BACKENDADRESS + "/users/update", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${user.token}`,
+                },
                 body: JSON.stringify({
                     username,
                 }),
@@ -101,18 +116,11 @@ export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
                 .then((response) => response.json())
                 .then((data) => {
                     if (data.token) {
-                        dispatch(
-                            login({
-                                email: data.user.email,
-                                username: data.user.username,
-                                token: data.token,
-                                userPhoto: data.user.userPhoto,
-                            }),
-                        );
+                        updateReduxUser(data.user, data.token);
                     }
                 })
                 .catch(console.error);
-
+            setUsername("");
             setUsernameError(false);
         }
     };
@@ -120,10 +128,14 @@ export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
     const handleModifiedEmail = () => {
         if (!email || !EMAIL_REGEX.test(email)) {
             setEmailError(true);
+            return;
         } else {
-            fetch(BACKENDADRESS + `/users/update/${user.token}`, {
+            fetch(BACKENDADRESS + "/users/update", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${user.token}`,
+                },
                 body: JSON.stringify({
                     email,
                 }),
@@ -131,33 +143,26 @@ export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
                 .then((response) => response.json())
                 .then((data) => {
                     if (data.token) {
-                        dispatch(
-                            login({
-                                email: data.user.email,
-                                username: data.user.username,
-                                token: data.token,
-                                userPhoto: data.user.userPhoto,
-                            }),
-                        );
+                        updateReduxUser(data.user, data.token);
                     }
                 })
                 .catch(console.error);
-
+            setEmail("");
             setEmailError(false);
         }
     };
 
     const handleModifiedPassword = () => {
-        if (!oldPassword) {
-            setMissingError(true);
-            return;
-        } else if (!newPassword) {
+        if (!oldPassword || !newPassword) {
             setMissingError(true);
             return;
         } else {
-            fetch(BACKENDADRESS + `/users/update/${user.token}`, {
+            fetch(BACKENDADRESS + "/users/update", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${user.token}`,
+                },
                 body: JSON.stringify({
                     oldPassword,
                     newPassword,
@@ -170,14 +175,7 @@ export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
                         setOldPassword("");
                     }
                     if (data.user) {
-                        dispatch(
-                            login({
-                                email: data.user.email,
-                                username: data.user.username,
-                                token: data.token,
-                                userPhoto: data.user.userPhoto,
-                            }),
-                        );
+                        updateReduxUser(data.user, data.token);
                     }
                 })
 
@@ -323,7 +321,11 @@ export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
                         text="Deconnection"
                         onPress={deconnected}
                     />
-                    <DeleteButton size="m" text="" onPress={() =>setIsDeleteModalOpened(true)}/>
+                    <DeleteButton
+                        size="m"
+                        text=""
+                        onPress={() => setIsDeleteModalOpened(true)}
+                    />
                 </View>
             </View>
             <DeleteAccountModal

@@ -3,8 +3,8 @@ import { Text, View, StyleSheet, Modal } from "react-native";
 import { BACKENDADRESS } from "../../config";
 import { Button } from "../../ui/button";
 import { NavigationProp, ParamListBase } from "@react-navigation/native";
-import { useSelector } from "react-redux";
-import { UserState } from "../../reducers/user";
+import { useDispatch, useSelector } from "react-redux";
+import { logout, UserState } from "../../reducers/user";
 
 type DeleteAccountModalProps = {
     navigation: NavigationProp<ParamListBase>;
@@ -17,17 +17,23 @@ export default function DeleteAccountModal({
     onClose,
     visible,
 }: DeleteAccountModalProps) {
-    
+    const dispatch = useDispatch();
     const user = useSelector((state: { user: UserState }) => state.user.value);
 
-    
     const handleDeleteUser = async () => {
-        const response = await fetch(
-            BACKENDADRESS + `/users/delete/${user.token}`,
-            { method: "DELETE" },
-        );
-        if (response) {
+        try {
+            const response = await fetch(BACKENDADRESS + "/users/delete/", {
+                method: "DELETE",
+                headers: { Authorization: `Bearer ${user.token}` },
+            });
+            if (!response.ok) {
+                // Afficher un message d'erreur
+                throw new Error(`Erreur serveur : ${response.status}`);
+            }
+            dispatch(logout());
             navigation.navigate("Home");
+        } catch (error) {
+            console.log("Erreur réseau :", error);
         }
     };
 

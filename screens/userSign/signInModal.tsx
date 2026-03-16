@@ -5,9 +5,7 @@ import { Button } from "../../ui/button";
 import { Xbutton } from "../../ui/xButton";
 import { useDispatch } from "react-redux";
 import { login } from "../../reducers/user";
-import {
-    useNavigation,
-} from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { BACKENDADRESS } from "../../config";
 
 export default function SignInModal({
@@ -63,6 +61,8 @@ export default function SignInModal({
             navigation.navigate("TabNavigator");
             onClose();
         }
+        setPassword("");
+        setUsername("");
     };
 
     return (
