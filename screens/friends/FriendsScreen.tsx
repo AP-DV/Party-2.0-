@@ -5,6 +5,7 @@ import {
     TextInput,
     FlatList,
     Image,
+    Button,
 } from "react-native";
 import React, { useEffect } from "react";
 import { NavigationProp, ParamListBase } from "@react-navigation/native";
@@ -170,12 +171,7 @@ export default function FriendsScreen({ navigation }: UserScreenProps) {
                         value={newFriendName}
                     />
                     {addError && <Text style={styles.error}>{addError}</Text>}
-                    <AddButton
-                        colour="blue"
-                        size="s"
-                        text="+"
-                        onPress={handleAddFriend}
-                    />
+                    <Button title="+" onPress={handleAddFriend} />
                 </View>
                 <Text style={styles.title}>Supprime un ami </Text>
                 <View style={styles.formBlock}>
@@ -191,11 +187,7 @@ export default function FriendsScreen({ navigation }: UserScreenProps) {
                     {removeError && (
                         <Text style={styles.error}>{removeError}</Text>
                     )}
-                    <DeleteButton
-                        size="m"
-                        text="-"
-                        onPress={handleRemoveFriend}
-                    />
+                    <Button title="-" onPress={handleRemoveFriend} />
                 </View>
             </View>
         </View>
@@ -249,13 +241,13 @@ const styles = StyleSheet.create({
         textAlign: "left",
     },
     formBlock: {
-        flexDirection: 'row',
+        flexDirection: "row",
         alignItems: "center",
-        justifyContent : 'space-between',
+        justifyContent: "space-between",
         paddingHorizontal: 10,
     },
     input: {
-        flex : 1,
+        flex: 1,
         fontSize: 20,
         fontWeight: "bold",
         textAlign: "center",
