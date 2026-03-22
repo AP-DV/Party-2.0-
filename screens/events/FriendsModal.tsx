@@ -12,7 +12,7 @@ type FriendModalProps = {
     visible: boolean;
     addMember: (member: string) => void;
     removeMember: (member: string) => void;
-    memberIds : string[];
+    memberIds: string[];
 };
 
 export default function FriendsModal({
@@ -20,22 +20,16 @@ export default function FriendsModal({
     visible,
     addMember,
     removeMember,
-    memberIds
+    memberIds,
 }: FriendModalProps) {
     const [users, setUsers] = useState<User[]>([]);
-    console.log('users :',users);
-        console.log('membersid :',memberIds);
 
     useEffect(() => {
         const fetchUserList = async () => {
             try {
-                const response = await fetch(
-                    BACKENDADRESS + "/users",
-                    {},
-                );
+                const response = await fetch(BACKENDADRESS + "/users", {});
                 const data = await response.json();
-                console.log(data);
-                
+
                 setUsers(data.users);
             } catch (error) {
                 console.error("Erreur de récupération Users", error);
@@ -110,18 +104,18 @@ const styles = StyleSheet.create({
         color: "white",
         fontSize: 30,
         alignSelf: "center",
-        minWidth:200,
-        maxWidth:200
+        minWidth: 200,
+        maxWidth: 200,
     },
 
     friend: {
         flexDirection: "row",
         justifyContent: "space-evenly",
         borderWidth: 1,
-        padding:5,
+        padding: 5,
         borderTopColor: "white",
         backgroundColor: "#212121",
-        width:'100%',
+        width: "100%",
     },
     checkbox: {
         alignSelf: "center",

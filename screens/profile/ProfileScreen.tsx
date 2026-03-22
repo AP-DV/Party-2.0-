@@ -88,7 +88,6 @@ export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
             })
                 .then((response) => response.json())
                 .then((data) => {
-                    console.log("profile", data);
                     if (data.token) {
                         updateReduxUser(data.user, data.token);
                     }

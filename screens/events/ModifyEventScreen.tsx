@@ -45,10 +45,6 @@ export default function ModifyEventScreen({ navigation }: UserScreenProps) {
 
     const currentEvent = useEventState()!;
 
-    // useEffect(() => {
-    //   setMemberIds(currentEvent.memberIds);
-    // }, [currentEvent]);
-
     const user = useSelector((state: { user: UserState }) => state.user.value);
 
     const handleAddPhoto = async (imageURI: string) => {
@@ -65,7 +61,6 @@ export default function ModifyEventScreen({ navigation }: UserScreenProps) {
         });
         const data = await response.json();
         if (data) {
-            // console.log("photodata:", data);
             setPhoto(data.photo.url);
         }
     };
@@ -100,14 +95,9 @@ export default function ModifyEventScreen({ navigation }: UserScreenProps) {
         navigation.navigate("TabNavigator", { screen: "Events" });
     };
 
-    console.log("photo", photo);
-
     const handleAddMember = (member: string) => {
-        // console.log(currentEvent.memberIds);
-        // setMemberIds([...memberIds, ...currentEvent.memberIds]);
-
         if (!memberIds.includes(member)) {
-            setMemberIds([...memberIds, member]);
+            setMemberIds((prevMembers) => [...prevMembers, member]);
         }
     };
 
@@ -123,20 +113,22 @@ export default function ModifyEventScreen({ navigation }: UserScreenProps) {
         switch (typeDate) {
             case "startDate":
                 setStartDate(currentDate);
+                break;
             case "endDate":
                 setEndDate(currentDate);
+                break;
             case "startHour":
                 setStartHour(currentDate);
+                break;
             case "endHour":
                 setEndHour(currentDate);
+                break;
         }
         setVisible(false);
     };
 
     const ModifyEvent = async () => {
-      
         const body: any = { _id: currentEvent._id };
-        console.log("body =>", body);
 
         if (title) {
             body.title = title;
@@ -157,10 +149,9 @@ export default function ModifyEventScreen({ navigation }: UserScreenProps) {
             body.endHour = endHour;
         }
         if (photo) {
-          body.photoEventUrl = photo;
+            body.photoEventUrl = photo;
         }
-        
-        console.log("newbody =>", body);
+
         const response = await fetch(
             BACKENDADRESS + `/events/update/${user.token}`,
             {
@@ -170,7 +161,7 @@ export default function ModifyEventScreen({ navigation }: UserScreenProps) {
             },
         );
         const data = await response.json();
-        console.log("data =>", data);
+
         if (data) {
             navigation.navigate("TabNavigator", { screen: "Events" });
         }

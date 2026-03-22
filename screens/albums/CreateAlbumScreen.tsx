@@ -28,7 +28,6 @@ export default function CreateAlbumScreen({ navigation }: UserScreenProps) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         setPhoto(data.photo.url);
       });
   };

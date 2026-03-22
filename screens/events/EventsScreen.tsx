@@ -149,7 +149,6 @@ const styles = StyleSheet.create({
   eventInfos: {
     color: "grey",
     fontSize: 15,
-    fontFamily: "",
     marginBottom: -1.75,
   },
   photos: {

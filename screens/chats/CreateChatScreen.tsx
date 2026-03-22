@@ -1,8 +1,4 @@
-import {
-    StyleSheet,
-    Text,
-    View,
-} from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import React, { useState, useEffect } from "react";
 import { NavigationProp, ParamListBase } from "@react-navigation/native";
 import Header from "../headers/Header";
@@ -20,7 +16,7 @@ export default function CreateChatScreen({ navigation }: UserScreenProps) {
     const [username, setUsername] = useState("");
     // const handleSearchUser = () => {};
     const [eventListMembers, setEventListMembers] = useState<String[]>([]);
-    const [eventIdChoise, setEventIdChoise] = useState('');
+    const [eventIdChoise, setEventIdChoise] = useState("");
     const [events, setEvents] = useState<Event[]>([]);
 
     const user = useSelector((state: { user: UserState }) => state.user.value);
@@ -50,7 +46,6 @@ export default function CreateChatScreen({ navigation }: UserScreenProps) {
                 );
                 const data = await response.json();
                 setEvents(data.events);
-                
             } catch (error) {
                 console.error("Erreur de récupération events", error);
             }
@@ -58,10 +53,7 @@ export default function CreateChatScreen({ navigation }: UserScreenProps) {
         fetchEventList();
     }, []);
 
-    const listMembers = () => {
-
-    }
-
+    const listMembers = () => {};
 
     const eventsListUser = events.map((event) => (
         <View key={event._id} style={styles.event}>
@@ -79,15 +71,12 @@ export default function CreateChatScreen({ navigation }: UserScreenProps) {
                     if (isChecked) {
                         setEventIdChoise(event._id);
                     } else {
-                        setEventIdChoise('');
+                        setEventIdChoise("");
                     }
                 }}
             />
         </View>
     ));
-
-
-    console.log(events);
 
     return (
         <View>

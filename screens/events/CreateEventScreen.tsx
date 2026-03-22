@@ -66,17 +66,25 @@ export default function CreateEventScreen({ navigation }: UserScreenProps) {
         switch (typeDate) {
             case "startDate":
                 setStartDate(currentDate);
+                break;
             case "endDate":
                 setEndDate(currentDate);
+                break;
             case "startHour":
                 setStartHour(currentDate);
+                break;
             case "endHour":
                 setEndHour(currentDate);
+                break;
         }
         setVisible(false);
     };
 
     const CreateEvent = () => {
+        if (!title) {
+            alert("veuillez remplir le titre de l'évènement");
+            return;
+        }
         fetch(BACKENDADRESS + `/events/createEvent/${user.token}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -95,11 +103,13 @@ export default function CreateEventScreen({ navigation }: UserScreenProps) {
             .then((response) => response.json())
             .then((data) => {
                 if (data.result) {
-                    console.log(data);
 
                     dispatch(addEvent(data.event));
                 }
                 navigation.navigate("TabNavigator", { screen: "Events" });
+            })
+            .catch((error) => {
+                console.log("Create event error", error);
             });
     };
 
@@ -111,20 +121,20 @@ export default function CreateEventScreen({ navigation }: UserScreenProps) {
             name: "photo.jpg",
             type: "image/jpeg",
         });
-        fetch (BACKENDADRESS + `/upload/`, {
+        fetch(BACKENDADRESS + `/upload/`, {
             method: "POST",
             body: formData,
         })
             .then((response) => response.json())
             .then((data) => {
-                console.log('photodata:',data);
                 setPhoto(data.photo.url);
-            }).catch(console.error);
+            })
+            .catch(console.error);
     };
 
     const handleAddMember = (member: string) => {
         if (!memberIds.includes(member)) {
-            setMemberIds([...memberIds, member]);
+            setMemberIds((prevMembers) => [...prevMembers, member]);
         }
     };
 
@@ -150,7 +160,10 @@ export default function CreateEventScreen({ navigation }: UserScreenProps) {
                 />
                 <View style={styles.photoPlusFriends}>
                     {photo ? (
-                        <Image style={styles.updPhoto} source={{ uri: photo }} />
+                        <Image
+                            style={styles.updPhoto}
+                            source={{ uri: photo }}
+                        />
                     ) : (
                         <Fontisto
                             style={styles.photos}
@@ -331,13 +344,13 @@ const styles = StyleSheet.create({
         marginRight: 10,
         padding: 15,
     },
-        updPhoto: {
+    updPhoto: {
         width: 140,
         height: 140,
         borderWidth: 2,
         borderRadius: 25,
         borderColor: "white",
-         marginLeft: 10,
+        marginLeft: 10,
         marginRight: 10,
     },
     friends: {
