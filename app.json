@@ -49,16 +49,17 @@
         }
       ]
     ],
-    "extra": {
-      "eas": {
-        "projectId": "f7f31b3d-24bb-4045-8657-9234dc8914e9"
-      }
-    },
     "runtimeVersion": {
       "policy": "appVersion"
     },
+    "extra": {
+      "eas": {
+        "projectId": "c5e3c78f-29b4-47e7-aec1-fc32cdbbdca1"
+      }
+    },
     "updates": {
-      "url": "https://u.expo.dev/f7f31b3d-24bb-4045-8657-9234dc8914e9"
-    }
+      "url": "https://u.expo.dev/c5e3c78f-29b4-47e7-aec1-fc32cdbbdca1"
+    },
+    "owner": "apdv"
   }
 }
