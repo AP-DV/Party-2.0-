@@ -52,11 +52,12 @@ export default function FocusocusOnAlbum({ navigation }: UserScreenProps) {
             name: "photo.jpg",
             type: "image/jpeg",
         });
-        const response = await fetch("http://192.168.1.160:3000/upload", {
+        const response = await fetch(BACKENDADRESS+"/upload", {
             method: "POST",
             body: formData,
         });
         const data = await response.json();
+        console.log('123',data)
         if (data) {
             fetch(BACKENDADRESS + `/photos/${user.token}`, {
                 method: "POST",
