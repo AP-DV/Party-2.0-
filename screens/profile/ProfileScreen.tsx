@@ -25,7 +25,7 @@ type UserScreenProps = {
     navigation: NavigationProp<ParamListBase>;
 };
 
-const EMAIL_REGEX: RegExp = /./;
+const EMAIL_REGEX: RegExp = /^\S+@\S+\.\S+$/;
 //    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 //    /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 //    /^\S+@\S+\.\S+$/
@@ -106,7 +106,7 @@ export default function ProfileOnFocusScreen({ navigation }: UserScreenProps) {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${user.token}`,
+                    Authorization: `Bearer ${user.token}`,  //url sécurisé sans token qui est placé dans le header.Authorization
                 },
                 body: JSON.stringify({
                     username,
