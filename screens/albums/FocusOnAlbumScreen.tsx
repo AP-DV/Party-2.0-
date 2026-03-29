@@ -57,7 +57,6 @@ export default function FocusocusOnAlbum({ navigation }: UserScreenProps) {
             body: formData,
         });
         const data = await response.json();
-        console.log('123',data)
         if (data) {
             fetch(BACKENDADRESS + `/photos/${user.token}`, {
                 method: "POST",
