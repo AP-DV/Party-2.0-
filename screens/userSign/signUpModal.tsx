@@ -8,8 +8,7 @@ import { useNavigation } from "@react-navigation/native";
 import { BACKENDADRESS } from "../../config";
 
 
-const EMAIL_REGEX: RegExp = /./;
-//    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+const EMAIL_REGEX: RegExp = /^\S+@\S+\.\S+$/;
 
 export default function SignUpModal({
     onClose,
@@ -115,7 +114,7 @@ export default function SignUpModal({
                     value={username}
                 />
                 {userError && (
-                    <Text style={styles.error}>"email already used"</Text>
+                    <Text style={styles.error}>"User already exists"</Text>
                 )}
                 <TextInput
                     style={styles.input}

@@ -60,6 +60,7 @@ export default function SignInModal({
             setPassword("");
             navigation.navigate("TabNavigator");
             onClose();
+
         }
         setPassword("");
         setUsername("");
