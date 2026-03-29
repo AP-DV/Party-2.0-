@@ -14,7 +14,7 @@ type UserScreenProps = {
   navigation: NavigationProp<ParamListBase>;
 };
 
-export default function EventScreen({ navigation }: UserScreenProps) {
+export default function AlbumScreen({ navigation }: UserScreenProps) {
   const dispatch = useDispatch();
 
   const events = useGetUserEvents();
